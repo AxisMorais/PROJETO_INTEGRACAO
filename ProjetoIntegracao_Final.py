@@ -8,25 +8,24 @@ from selenium.webdriver.common.by import By
 import os
 #--------------------------------------------------------------------------------------------
 
-
-for x in range(0, 3):
+for x in range(0, 2031):
 
     # VARIAVEL QUE IDENTIFICA O INICIO DA EXECUÇAO PARA FINS DE ANALISE DE PERFORMANCE
     start = time.time()
 
-    #VARIÁVEL DIRETORIO ARMAZENA A PLANTILHA PLAN_1
+    #VARIAVEL DIRETORIO ARMAZENA A PLANTILHA PLAN_1
     diretorio = 'C:/Users/pres00310855/Desktop/Integracao/Plan_1.xlsx'
 
-    #ARMAZENADOR TEM A FUNÇÃO DE ARMAZENAR A LEITURA DO ARQUIVO PLAN_1
+    #ARMAZENADOR TEM A FUNCAO DE ARMAZENAR A LEITURA DO ARQUIVO PLAN_1
     armazenador = pd.read_excel(diretorio)
 
     #TRANSFORMANDO A PLANILHA EM UM DATA FRAME (PAINEL DE DADOS)
     data_frame = pd.DataFrame(armazenador)
 
-    #CRIAÇAO DE UMA VARIÁVEL PARA CONTAR QUANTAS UNIADES FORAM VINCULADAS
+    #CRIACAO DE UMA VARIAVEL PARA CONTAR QUANTAS UNIADES FORAM VINCULADAS
     vinculados = 0
 
-    #O VALOR DA LINHA DO DATA FRAME SERA O MESMO VALOR DO LAÇO DE REPETIÇAO FOR
+    # O VALOR DA LINHA DO DATA FRAME SERA O MESMO VALOR D QUANRIDADE DE  REPETIÇAO DA ESTRUTURA FOR
     valorLinha = x
 
     #ACESSANDO O CODIGO DE LOTAÇAO UTILIZANDO O VALOR DA LINHA  NA COLUNA: COLDIGO DO ORGAO INTERNO DO DATA FFRAME
@@ -38,7 +37,7 @@ for x in range(0, 3):
     # ARMAZENANDO A SENHA REFERENTE AO CENTRO DE CUSTO
     sigla = data_frame.at[valorLinha, 'Sigla Orgão Interno']
 
-    #TRANSFORMANDO O CODIGO DE LOTAÇÃO EM UMA STRING
+    #TRANSFORMANDO O CODIGO DE LOTAÇAO EM UMA STRING
     lotacao = str(lotacao)
 
 
@@ -59,28 +58,28 @@ for x in range(0, 3):
     # ENCONTRAR O ELEMENTO COM A TAG NAME NO HTML E ESCREVER A SENHA PARA ACESSAR O SISTEMA:
     navegador.find_element(By.NAME, 'josso_password').send_keys('Th1505@')
 
-    # Clicar no botÃ£o para acessar o sistema:
+    # CLICAR NO BOTAO PARA ACESSAR O SISTEMA
     navegador.find_element(By.CLASS_NAME, "botao").click()
 
-    # Cliar na opÃ§Ã£o GERAL do menu superior
+    # CLICAR NA OPCAO GERAL DO MENU SUPERIOR
     navegador.find_element('xpath', '//*[@id="geral"]/div[2]/ul/li[2]/a').click()
 
-    # CLICAR NA OPÃÃO IDENTIFICAR CODIGO DE INTEGRAÃÃO DE UNIDADE:
+    # CLICAR NA OPCAO PARA IDENTIFICAR CODIGO DE INTEGRACAO DE UNIDADE:
     navegador.find_element('xpath', '//*[@id="geral"]/div[2]/ul/li[2]/ul/li[4]/a').click()
 
-    # CLICAR NA OPÃÃO REGISTRO SEM ASSOCIAÃÃO - RETIFICAR O CODIGO
+    # CLICAR NA OPCAO REGISTRO SEM ASSOCIACAO - RETIFICAR O CODIGO
     navegador.find_element('xpath', '//*[@id="fieldset-fieldsetpesquisasoluinteunidnaoiden"]/div[1]/label[2]').click()
 
     # TEMPO DE ESPERA DE 2 SEGUNDOS
     time.sleep(2)
 
-    # INSERIR O CODIGO DE LOTAÃÃO
+    # INSERIR O CODIGO DE LOTACAO
     navegador.find_element('xpath', '//*[@id="codigo_centro_custo"]').send_keys(lotacaoFormatado)
 
     # TEMPO DE ESPERA DE 2 SEGUNDOS
     time.sleep(3)
 
-    # CLICANDO NA OPÃÃO PESQUISAR
+    # CLICANDO NA OPCAO PESQUISAR
     navegador.find_element('xpath', '//*[@id="pesquisar"]').click()
 
     # TEMPO DE ESPERA DE 2 SEGUNDOS
@@ -116,7 +115,7 @@ for x in range(0, 3):
         # ESPERANDO 3 SEGUNDOS PARA PESQUISAR O CENTRO DE CUSTO
         time.sleep(3)
 
-        # CLICANDO NO BOTÃO PESQUISAR
+        # CLICANDO NO BOTAO PESQUISAR
         navegador.find_element('xpath', '// *[ @ id = "pesquisar"]').click()
 
         time.sleep(3)
@@ -127,7 +126,7 @@ for x in range(0, 3):
         # SAINDO DO IFRAME, E REDIRECIONANDO PARA O AMBIENTE EXTERNO
         navegador.switch_to.default_content()
 
-        # CLICAR NO BOTÃO GRAVAR
+        # CLICAR NO BOTAO GRAVAR
         navegador.find_element('xpath', '//*[@id="cancelar"]').click()
 
         # CONTAGEM DOS VINCULADOS
@@ -136,16 +135,10 @@ for x in range(0, 3):
         time.sleep(7)
 
         ###################################################################################################
-
-
-
     except:
-
         #CALCULO DE NAO VINCULADOS, COMO ELE NÃO ENCONTROU ELE JÁ RECEBE O NÚMERO 1, ELE NÃO PODE COMEÇAR DO ZERO
         naoVinculados = 1
         naoVinculados = naoVinculados +1
-
-        print('Nao encontrei ainda...')
 
     # VARIÁVEL IDENTIFICA O FIM DA EXECUÇÃO
     end = time.time()
@@ -184,7 +177,7 @@ arquivo.write(txt_vinculado)
 vinculados = str(vinculados)
 arquivo.write(vinculados)
 
-#INSERINDO O TITULO QUANTIDADE DE NAO VINCULADO
+#INSERINDO O TITULO QUANTIDADE DE NAO VINCULADOS
 txt_naoVinculado = " \n Quantidade total de Não vinculados: "
 arquivo.write(txt_naoVinculado)
 
