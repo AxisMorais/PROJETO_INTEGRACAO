@@ -8,7 +8,17 @@ from selenium.webdriver.common.by import By
 import os
 #--------------------------------------------------------------------------------------------
 
-for x in range(0, 2031):
+#CRIACAO DE UMA VARIAVEL PARA CONTAR QUANTAS UNIADES FORAM VINCULADAS
+vinculados = 0
+
+#CRIACAO DE UMA VARIAVEL PARA CONTAR QUANTAS UNIADES NÃO FORAM VINCULADAS
+naoVinculados = 0
+
+
+#2031
+for x in range(0, 3):
+
+    print(x)
 
     # VARIAVEL QUE IDENTIFICA O INICIO DA EXECUÇAO PARA FINS DE ANALISE DE PERFORMANCE
     start = time.time()
@@ -22,9 +32,6 @@ for x in range(0, 2031):
     #TRANSFORMANDO A PLANILHA EM UM DATA FRAME (PAINEL DE DADOS)
     data_frame = pd.DataFrame(armazenador)
 
-    #CRIACAO DE UMA VARIAVEL PARA CONTAR QUANTAS UNIADES FORAM VINCULADAS
-    vinculados = 0
-
     # O VALOR DA LINHA DO DATA FRAME SERA O MESMO VALOR D QUANRIDADE DE  REPETIÇAO DA ESTRUTURA FOR
     valorLinha = x
 
@@ -37,9 +44,10 @@ for x in range(0, 2031):
     # ARMAZENANDO A SENHA REFERENTE AO CENTRO DE CUSTO
     sigla = data_frame.at[valorLinha, 'Sigla Orgão Interno']
 
+    #valorLinha = valorLinha + 1
+
     #TRANSFORMANDO O CODIGO DE LOTAÇAO EM UMA STRING
     lotacao = str(lotacao)
-
 
     #LOTACAO FORMATADO GERA UMA MASCARA DE FORMATACAO PARA O CODIGO DE  LOTAÇAO INSERINDO OS PONTOS A CADA DOIS DIGITOS
     lotacaoFormatado = lotacao[0] + lotacao[1] + "." + lotacao[2] + lotacao[3] + "." + lotacao[4] + lotacao[5] + "." + \
@@ -52,50 +60,59 @@ for x in range(0, 2031):
     # ACESSAR O SITE DO CIC:
     navegador.get('http://cic.pbh/')
 
-    # ENCONTRAR O ELEMENTO COM A TAG NAME NO HTML E ESCREVENDO NO CAMPO O LOGIN DO SISTEMA:
+     # ENCONTRAR O ELEMENTO COM A TAG NAME NO HTML E ESCREVENDO NO CAMPO O LOGIN DO SISTEMA:
     navegador.find_element(By.NAME, 'josso_username').send_keys('thiago.conegundes')
 
     # ENCONTRAR O ELEMENTO COM A TAG NAME NO HTML E ESCREVER A SENHA PARA ACESSAR O SISTEMA:
-    navegador.find_element(By.NAME, 'josso_password').send_keys('----')
+    navegador.find_element(By.NAME, 'josso_password').send_keys('Th1505@')
 
     # CLICAR NO BOTAO PARA ACESSAR O SISTEMA
     navegador.find_element(By.CLASS_NAME, "botao").click()
 
+    # TEMPO DE ESPERA DE 7 SEGUNDOS
+    time.sleep(7)
+
     # CLICAR NA OPCAO GERAL DO MENU SUPERIOR
     navegador.find_element('xpath', '//*[@id="geral"]/div[2]/ul/li[2]/a').click()
+
+    #TEMPO DE ESPERA DE 3 SEGUNDOS
+    time.sleep(6)
 
     # CLICAR NA OPCAO PARA IDENTIFICAR CODIGO DE INTEGRACAO DE UNIDADE:
     navegador.find_element('xpath', '//*[@id="geral"]/div[2]/ul/li[2]/ul/li[4]/a').click()
 
+    # TEMPO DE ESPERA DE 3 SEGUNDOS
+    time.sleep(7)
+
     # CLICAR NA OPCAO REGISTRO SEM ASSOCIACAO - RETIFICAR O CODIGO
     navegador.find_element('xpath', '//*[@id="fieldset-fieldsetpesquisasoluinteunidnaoiden"]/div[1]/label[2]').click()
 
-    # TEMPO DE ESPERA DE 2 SEGUNDOS
-    time.sleep(2)
+    # TEMPO DE ESPERA DE 3 SEGUNDOS
+    time.sleep(6)
 
     # INSERIR O CODIGO DE LOTACAO
     navegador.find_element('xpath', '//*[@id="codigo_centro_custo"]').send_keys(lotacaoFormatado)
 
     # TEMPO DE ESPERA DE 2 SEGUNDOS
-    time.sleep(3)
+    time.sleep(5)
 
     # CLICANDO NA OPCAO PESQUISAR
     navegador.find_element('xpath', '//*[@id="pesquisar"]').click()
 
     # TEMPO DE ESPERA DE 2 SEGUNDOS
-    time.sleep(2)
+    time.sleep(5)
 
     # EXECUTANDO TENTATIVAS PARA ACESSAR A TELA DE CADASTRO
     try:
         # CLICANDO NO CODIGO DE LOTACAO PARA ENTRAR NA TELA DE CADASTRO
         navegador.find_element('xpath', '//*[@id="divPesquisa"]/table/tbody/tr/td[1]').click()
 
-        time.sleep(2)
+        time.sleep(5)
 
         # CLICANDO NA LUPA PARA BUSCAR O CENTRO DE CUSTO
         navegador.find_element('xpath', '//*[@id="detalhe-1-vinculado"]').click()
 
-        time.sleep(2)
+        time.sleep(4)
 
         ##################################################################################################
         # TRABALHANDO COM IFRAMES
@@ -106,14 +123,17 @@ for x in range(0, 2031):
         # ACESSANDO O ELEMENTO DO IFRAME E INSRINDO O CENTRO DE CUSTO
         navegador.find_element('xpath', '//*[@id="nome_centro_custo"]').send_keys(centroCusto)
 
-        # ACESSANDO O ELEMENTO DO IFRAME E INSRINDO A SIGLA
+        # TEMPO DE ESPERA DE 5 SEGUNDOS
+        time.sleep(5)
+
+        # ACESSANDO O ELEMENTO DO IFRAME E INSRINDO DA SIGLA
         navegador.find_element('xpath', '//*[@id="sigla_centro_custo"]').send_keys(sigla)
 
         # INSERINDO A SIGLA
         navegador.find_element('xpath', '//*[@id="pesquisar"]').send_keys(sigla)
 
         # ESPERANDO 3 SEGUNDOS PARA PESQUISAR O CENTRO DE CUSTO
-        time.sleep(3)
+        time.sleep(4)
 
         # CLICANDO NO BOTAO PESQUISAR
         navegador.find_element('xpath', '// *[ @ id = "pesquisar"]').click()
@@ -127,18 +147,19 @@ for x in range(0, 2031):
         navegador.switch_to.default_content()
 
         # CLICAR NO BOTAO GRAVAR
-        navegador.find_element('xpath', '//*[@id="cancelar"]').click()
+        navegador.find_element('xpath', '//*[@id="gravar"]').click()
 
         # CONTAGEM DOS VINCULADOS
         vinculados = vinculados + 1
+
 
         time.sleep(7)
 
         ###################################################################################################
     except:
+
         #CALCULO DE NAO VINCULADOS, COMO ELE NÃO ENCONTROU ELE JÁ RECEBE O NÚMERO 1, ELE NÃO PODE COMEÇAR DO ZERO
-        naoVinculados = 1
-        naoVinculados = naoVinculados +1
+        naoVinculados = naoVinculados + 1
 
     # VARIÁVEL IDENTIFICA O FIM DA EXECUÇÃO
     end = time.time()
