@@ -56,7 +56,7 @@ for x in range(0, 2031):
     navegador.find_element(By.NAME, 'josso_username').send_keys('thiago.conegundes')
 
     # ENCONTRAR O ELEMENTO COM A TAG NAME NO HTML E ESCREVER A SENHA PARA ACESSAR O SISTEMA:
-    navegador.find_element(By.NAME, 'josso_password').send_keys('Th1505@')
+    navegador.find_element(By.NAME, 'josso_password').send_keys('----')
 
     # CLICAR NO BOTAO PARA ACESSAR O SISTEMA
     navegador.find_element(By.CLASS_NAME, "botao").click()
