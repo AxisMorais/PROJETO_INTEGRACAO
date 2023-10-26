@@ -14,16 +14,18 @@ vinculados = 0
 #CRIACAO DE UMA VARIAVEL PARA CONTAR QUANTAS UNIADES NÃO FORAM VINCULADAS
 naoVinculados = 0
 
+#CASO OCORRA ALGUMA QUEBA O ALGORITIMO RETOMA A CONTAGEM INICIANDO NO ULTIMO PONTO DE PARADA WHILE
 pontoDeParadaWhile = 0
 
+#VARIAVEL START QUE CONTABILIZA E CRONOMETRA O INICIO DA EXECUCAO DO PROGRAMA
 start = time.time()
 #2031
 while ( pontoDeParadaWhile != 2031 ):
 
+    for x in range(0, 2031):
 
-    for x in range(pontoDeParadaWhile, 2031):
+        print(x)
 
-        print(pontoDeParadaWhile)
 
         # VARIAVEL QUE IDENTIFICA O INICIO DA EXECUÇAO PARA FINS DE ANALISE DE PERFORMANCE
         start = time.time()
@@ -38,7 +40,7 @@ while ( pontoDeParadaWhile != 2031 ):
         data_frame = pd.DataFrame(armazenador)
 
         # O VALOR DA LINHA DO DATA FRAME SERA O MESMO VALOR D QUANRIDADE DE  REPETIÇAO DA ESTRUTURA FOR
-        valorLinha = x
+        valorLinha = pontoDeParadaWhile
 
         #ACESSANDO O CODIGO DE LOTAÇAO UTILIZANDO O VALOR DA LINHA  NA COLUNA: COLDIGO DO ORGAO INTERNO DO DATA FFRAME
         lotacao = data_frame.at[valorLinha, 'Código Orgão Interno']
@@ -80,7 +82,6 @@ while ( pontoDeParadaWhile != 2031 ):
             # CLICAR NA OPCAO GERAL DO MENU SUPERIOR
             navegador.find_element('xpath', '//*[@id="geral"]/div[2]/ul/li[2]/a').click()
         except:
-            pontoDeParadaWhile = pontoDeParadaWhile - 1
             print("houve uma quebra nesse ponto: ", pontoDeParadaWhile)
             break
 
@@ -97,9 +98,8 @@ while ( pontoDeParadaWhile != 2031 ):
             #CLICAR NA OPCAO REGISTRO SEM ASSOCIACAO - RETIFICAR O CODIGO
             navegador.find_element('xpath', '//*[@id="fieldset-fieldsetpesquisasoluinteunidnaoiden"]/div[1]/label[2]').click()
         except:
-            pontoDeParadaWhile = pontoDeParadaWhile - 1
-            print("houve uma quebra nesse ponto: ", pontoDeParadaWhile )
-            break
+           print("houve uma quebra nesse ponto: ", pontoDeParadaWhile )
+           break
 
         # TEMPO DE ESPERA DE 3 SEGUNDOS
         time.sleep(3)
@@ -166,8 +166,11 @@ while ( pontoDeParadaWhile != 2031 ):
             # CONTAGEM DOS VINCULADOS
             vinculados = vinculados + 1
 
+            # CONTABILIZANDO AS TENTATIVAS
+            pontoDeParadaWhile = pontoDeParadaWhile + 1
 
-            time.sleep(7)
+            #AGUARDANDO 5 SEGUNDOS
+            time.sleep(5)
 
             ###################################################################################################
         except:
@@ -176,8 +179,7 @@ while ( pontoDeParadaWhile != 2031 ):
             naoVinculados = naoVinculados + 1
 
 
-    #CONTABILIZANDO AS TENTATIVAS
-    pontoDeParadaWhile = pontoDeParadaWhile + 1
+
 
 end = time.time()
 
