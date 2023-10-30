@@ -20,11 +20,11 @@ pontoDeParadaWhile = 0
 #VARIAVEL START QUE CONTABILIZA E CRONOMETRA O INICIO DA EXECUCAO DO PROGRAMA
 start = time.time()
 #2031
-while ( pontoDeParadaWhile != 2031 ):
+while ( pontoDeParadaWhile != 2032 ):
 
-    for x in range(0, 2031):
+    for x in range(0, 2032):
 
-        print(x)
+        print(pontoDeParadaWhile, "Ao quebrar retorne a partir do: " , pontoDeParadaWhile )
 
 
         # VARIAVEL QUE IDENTIFICA O INICIO DA EXECUÇAO PARA FINS DE ANALISE DE PERFORMANCE
@@ -41,6 +41,8 @@ while ( pontoDeParadaWhile != 2031 ):
 
         # O VALOR DA LINHA DO DATA FRAME SERA O MESMO VALOR D QUANRIDADE DE  REPETIÇAO DA ESTRUTURA FOR
         valorLinha = pontoDeParadaWhile
+
+        pontoDeParadaWhile= pontoDeParadaWhile + 1
 
         #ACESSANDO O CODIGO DE LOTAÇAO UTILIZANDO O VALOR DA LINHA  NA COLUNA: COLDIGO DO ORGAO INTERNO DO DATA FFRAME
         lotacao = data_frame.at[valorLinha, 'Código Orgão Interno']
@@ -66,17 +68,26 @@ while ( pontoDeParadaWhile != 2031 ):
 
         # ACESSAR O SITE DO CIC:
         navegador.get('http://cic.pbh/')
+        try:
+             # ENCONTRAR O ELEMENTO COM A TAG NAME NO HTML E ESCREVENDO NO CAMPO O LOGIN DO SISTEMA:
+             navegador.find_element(By.NAME, 'josso_username').send_keys('thiago.conegundes')
+        except:
+            print("houve uma quebra nesse ponto: ", pontoDeParadaWhile)
+            break
+        try:
+            # ENCONTRAR O ELEMENTO COM A TAG NAME NO HTML E ESCREVER A SENHA PARA ACESSAR O SISTEMA:
+            navegador.find_element(By.NAME, 'josso_password').send_keys('Th1505@')
+        except:
+            print("houve uma quebra nesse ponto: ", pontoDeParadaWhile)
+            break
+        try:
+            # CLICAR NO BOTAO PARA ACESSAR O SISTEMA
+            navegador.find_element(By.CLASS_NAME, "botao").click()
+        except:
+            print("houve uma quebra nesse ponto: ", pontoDeParadaWhile)
+            break
 
-         # ENCONTRAR O ELEMENTO COM A TAG NAME NO HTML E ESCREVENDO NO CAMPO O LOGIN DO SISTEMA:
-        navegador.find_element(By.NAME, 'josso_username').send_keys('thiago.conegundes')
-
-        # ENCONTRAR O ELEMENTO COM A TAG NAME NO HTML E ESCREVER A SENHA PARA ACESSAR O SISTEMA:
-        navegador.find_element(By.NAME, 'josso_password').send_keys('Th1505@')
-
-        # CLICAR NO BOTAO PARA ACESSAR O SISTEMA
-        navegador.find_element(By.CLASS_NAME, "botao").click()
-
-        # TEMPO DE ESPERA DE 7 SEGUNDOS
+        # TEMPO DE ESPERA DE 3 SEGUNDOS
         time.sleep(3)
         try:
             # CLICAR NA OPCAO GERAL DO MENU SUPERIOR
@@ -88,8 +99,12 @@ while ( pontoDeParadaWhile != 2031 ):
         #TEMPO DE ESPERA DE 3 SEGUNDOS
         time.sleep(3)
 
-        # CLICAR NA OPCAO PARA IDENTIFICAR CODIGO DE INTEGRACAO DE UNIDADE:
-        navegador.find_element('xpath', '//*[@id="geral"]/div[2]/ul/li[2]/ul/li[4]/a').click()
+        try:
+            # CLICAR NA OPCAO PARA IDENTIFICAR CODIGO DE INTEGRACAO DE UNIDADE:
+            navegador.find_element('xpath', '//*[@id="geral"]/div[2]/ul/li[2]/ul/li[4]/a').click()
+        except:
+            print("houve uma quebra nesse ponto: ", pontoDeParadaWhile)
+            break
 
         # TEMPO DE ESPERA DE 3 SEGUNDOS
         time.sleep(3)
@@ -98,8 +113,8 @@ while ( pontoDeParadaWhile != 2031 ):
             #CLICAR NA OPCAO REGISTRO SEM ASSOCIACAO - RETIFICAR O CODIGO
             navegador.find_element('xpath', '//*[@id="fieldset-fieldsetpesquisasoluinteunidnaoiden"]/div[1]/label[2]').click()
         except:
-           print("houve uma quebra nesse ponto: ", pontoDeParadaWhile )
-           break
+            print("houve uma quebra nesse ponto: ", pontoDeParadaWhile )
+            break
 
         # TEMPO DE ESPERA DE 3 SEGUNDOS
         time.sleep(3)
@@ -109,9 +124,13 @@ while ( pontoDeParadaWhile != 2031 ):
 
         # TEMPO DE ESPERA DE 2 SEGUNDOS
         time.sleep(3)
+        try:
+            # CLICANDO NA OPCAO PESQUISAR
+            navegador.find_element('xpath', '//*[@id="pesquisar"]').click()
+        except:
+            print("houve uma quebra nesse ponto: ", pontoDeParadaWhile)
+            break
 
-        # CLICANDO NA OPCAO PESQUISAR
-        navegador.find_element('xpath', '//*[@id="pesquisar"]').click()
 
         # TEMPO DE ESPERA DE 2 SEGUNDOS
         time.sleep(3)
@@ -120,10 +139,9 @@ while ( pontoDeParadaWhile != 2031 ):
         try:
             # CLICANDO NO CODIGO DE LOTACAO PARA ENTRAR NA TELA DE CADASTRO
             navegador.find_element('xpath', '//*[@id="divPesquisa"]/table/tbody/tr/td[1]').click()
-
             time.sleep(3)
 
-            # CLICANDO NA LUPA PARA BUSCAR O CENTRO DE CUSTO
+            #CLICANDO NA LUPA PARA BUSCAR O CENTRO DE CUSTO
             navegador.find_element('xpath', '//*[@id="detalhe-1-vinculado"]').click()
 
             time.sleep(3)
@@ -149,12 +167,14 @@ while ( pontoDeParadaWhile != 2031 ):
             # ESPERANDO 3 SEGUNDOS PARA PESQUISAR O CENTRO DE CUSTO
             time.sleep(3)
 
-            # CLICANDO NO BOTAO PESQUISAR
+
+            #CLICANDO NO BOTAO PESQUISAR
             navegador.find_element('xpath', '// *[ @ id = "pesquisar"]').click()
 
             time.sleep(3)
-            navegador.find_element('xpath', '// *[ @ id = "conteudo"] / table / tbody / tr / td[1]').click()
 
+
+            navegador.find_element('xpath', '// *[ @ id = "conteudo"] / table / tbody / tr / td[1]').click()
             time.sleep(3)
 
             # SAINDO DO IFRAME, E REDIRECIONANDO PARA O AMBIENTE EXTERNO
@@ -165,9 +185,6 @@ while ( pontoDeParadaWhile != 2031 ):
 
             # CONTAGEM DOS VINCULADOS
             vinculados = vinculados + 1
-
-            # CONTABILIZANDO AS TENTATIVAS
-            pontoDeParadaWhile = pontoDeParadaWhile + 1
 
             #AGUARDANDO 5 SEGUNDOS
             time.sleep(5)
