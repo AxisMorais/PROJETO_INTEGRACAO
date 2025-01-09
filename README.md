@@ -1,2 +1,4 @@
 # Projeto Integração
-O  Projeto Integração é uma automação elaborada na linguagem python no qual visa associar o código de lotação ao seu respectivo centro de custo. 
+Processo de correlação entre uma chave "código" e seu demais dados associados.
+
+•Python, Pandas, Selenium, Análide de dados, Scrap. Beautiful Soup
